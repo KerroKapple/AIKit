@@ -1,0 +1,49 @@
+{
+  "name": "aikit",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3000",
+    "build": "next build",
+    "start": "node .next/standalone/server.js",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "next": "15.1.0",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "axios": "^1.7.0",
+    "better-sqlite3": "^11.5.0",
+    "zod": "^3.23.0",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^2.5.0",
+    "class-variance-authority": "^0.7.0",
+    "lucide-react": "^0.454.0",
+    "@radix-ui/react-dropdown-menu": "^2.1.2",
+    "@radix-ui/react-slot": "^1.1.0",
+    "@radix-ui/react-label": "^2.1.0",
+    "@radix-ui/react-select": "^2.1.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.16.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@types/better-sqlite3": "^7.6.11",
+    "typescript": "^5.6.0",
+    "tailwindcss": "^3.4.14",
+    "postcss": "^8.4.49",
+    "autoprefixer": "^10.4.20",
+    "tailwindcss-animate": "^1.0.7",
+    "vitest": "^2.1.4",
+    "@vitest/coverage-v8": "^2.1.4",
+    "msw": "^2.6.0",
+    "eslint": "^9.14.0",
+    "eslint-config-next": "15.1.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
