@@ -6,5 +6,6 @@ node_modules/
 /data/*.db-shm
 /data/*.db-wal
 *.log
+*.tsbuildinfo
 .DS_Store
 coverage/
