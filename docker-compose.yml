@@ -1,0 +1,13 @@
+services:
+  aikit:
+    build: .
+    container_name: aikit
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3100:3000"
+    volumes:
+      - ./data:/data
+    environment:
+      - DASHSCOPE_API_KEY=${DASHSCOPE_API_KEY}
+      - DATABASE_PATH=/data/tasks.db
+      - NODE_ENV=production
