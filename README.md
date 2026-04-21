@@ -24,7 +24,7 @@ npm test            # 全部单测（Vitest）
 npm run typecheck   # tsc --noEmit
 ```
 
-## 部署到 kapple（腾讯云 <YOUR_SERVER_IP>）
+## 部署（以腾讯云 Debian 12 + SafeLine 雷池为例）
 
 ### 1. 仓库同步
 
