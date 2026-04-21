@@ -1,5 +1,8 @@
 import './globals.css';
+import { bootOnce } from '@/lib/bootstrap';
 import { cookies } from 'next/headers';
+
+bootOnce();
 import type { ReactNode } from 'react';
 import { getDict, normalizeLocale } from '@/lib/i18n';
 import { DictProvider } from './_components/DictProvider';
