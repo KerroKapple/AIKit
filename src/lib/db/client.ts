@@ -10,11 +10,15 @@ let instance: Database.Database | null = null;
 export function getDb(): Database.Database {
   if (instance) return instance;
 
-  const dir = path.dirname(env.DATABASE_PATH);
-  fs.mkdirSync(dir, { recursive: true });
+  const dbPath = env.DATABASE_PATH;
+  if (dbPath !== ':memory:') {
+    fs.mkdirSync(path.dirname(dbPath), { recursive: true });
+  }
 
-  const db = new Database(env.DATABASE_PATH);
-  db.pragma('journal_mode = WAL');
+  const db = new Database(dbPath);
+  if (dbPath !== ':memory:') {
+    db.pragma('journal_mode = WAL');
+  }
   db.pragma('foreign_keys = ON');
   db.pragma('synchronous = NORMAL');
 
