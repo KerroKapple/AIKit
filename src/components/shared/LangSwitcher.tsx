@@ -16,7 +16,7 @@ export function LangSwitcher() {
     router.refresh();
   };
   return (
-    <div className="inline-flex border border-ink">
+    <div className="inline-flex border border-ink" aria-label="Change language" role="group">
       {CODES.map((l) => (
         <button
           key={l}

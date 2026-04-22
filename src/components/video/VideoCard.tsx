@@ -51,7 +51,7 @@ export function VideoCard({
             <div className="absolute inset-y-0 right-0 w-3 flex flex-col justify-around py-1 bg-paper/5">
               {Array.from({ length: 8 }).map((_, i) => <span key={i} className="w-1.5 h-1.5 bg-paper/30 rounded-full mx-auto" />)}
             </div>
-            <video src={videoUrl} controls className="w-full block relative z-10 px-3" />
+            <video src={videoUrl} controls aria-label="Generated video" className="w-full block relative z-10 px-3" />
           </div>
           <a href={videoUrl} target="_blank" rel="noreferrer"
              className="mt-3 inline-flex items-center gap-2 self-end mono text-[0.68rem] tracking-[0.2em] uppercase text-paper/80 hover:text-vermilion transition-colors">

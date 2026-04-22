@@ -28,7 +28,7 @@ export function ImageGallery({ urls, busy }: { urls: string[]; busy?: boolean })
       {urls.map((u, i) => (
         <figure key={i} className="fade-up group relative" style={{ animationDelay: `${i * 80}ms` }}>
           <a href={u} target="_blank" rel="noreferrer" className="block border border-ink bg-paper overflow-hidden">
-            <img src={u} alt={`plate-${i + 1}`} className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.02]" />
+            <img src={u} alt={`AIKit generated image ${i + 1}`} className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.02]" />
           </a>
           <figcaption className="flex items-center justify-between mt-1.5 mono text-[0.62rem] tracking-[0.22em] text-ink-soft uppercase">
             <span>Plate № {String(i + 1).padStart(2, '0')}</span>

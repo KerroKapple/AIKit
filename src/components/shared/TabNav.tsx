@@ -13,13 +13,14 @@ export function TabNav() {
     { href: '/video', label: dict.nav.video, num: '03', kicker: 'MOV' },
   ] as const;
   return (
-    <nav className="flex items-stretch divide-x divide-rule border-y border-rule">
+    <nav aria-label="Primary" className="flex items-stretch divide-x divide-rule border-y border-rule">
       {tabs.map((t) => {
         const active = pathname === t.href;
         return (
           <Link
             key={t.href}
             href={t.href}
+            aria-current={active ? 'page' : undefined}
             className={cn(
               'group flex-1 flex items-center gap-3 px-4 py-3 transition-colors relative',
               active ? 'bg-ink text-paper' : 'hover:bg-paper-deep',

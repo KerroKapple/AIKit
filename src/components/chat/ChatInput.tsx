@@ -28,6 +28,7 @@ export function ChatInput({ onSend, disabled }: { onSend: (text: string) => void
           value={v}
           onChange={(e) => setV(e.target.value)}
           onKeyDown={onKey}
+          aria-label={dict.chat.placeholder}
           placeholder={dict.chat.placeholder}
           disabled={disabled}
           rows={3}
