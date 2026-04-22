@@ -80,7 +80,10 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
           <main className="container py-10">
             <div className="grid grid-cols-1 md:grid-cols-[auto,1fr] gap-4 md:gap-10">
               <aside className="flex md:flex-col md:items-center items-baseline gap-3 md:gap-6 md:pt-2 mono text-[0.62rem] tracking-widest text-ink-soft border-b md:border-b-0 pb-2 md:pb-0">
-                <span className="md:vertical-label uppercase">{mh.dispatchRoom}</span>
+                {/* 小屏横排 */}
+                <span className="uppercase md:hidden">{mh.dispatchRoom}</span>
+                {/* md+ 竖排（writing-mode: vertical-rl）*/}
+                <span className="vertical-label hidden md:block">{mh.dispatchRoom}</span>
                 <span className="hidden md:block w-px flex-1 bg-rule" />
                 <span className="ml-auto md:ml-0">§ 01</span>
               </aside>
