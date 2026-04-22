@@ -3,13 +3,24 @@ import { bootOnce } from '@/lib/bootstrap';
 import { cookies } from 'next/headers';
 
 bootOnce();
+import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import { getDict, normalizeLocale } from '@/lib/i18n';
 import { DictProvider } from './_components/DictProvider';
 import { TabNav } from '@/components/shared/TabNav';
 import { LangSwitcher } from '@/components/shared/LangSwitcher';
 
-export const metadata = { title: 'AIKit — Studio Dispatch', description: 'Friends-only AI kit on DashScope' };
+export const metadata: Metadata = {
+  title: 'AIKit — Studio Dispatch',
+  description: 'Friends-only AI kit on DashScope · Qwen / Wan / Kling',
+  icons: { icon: '/favicon.svg', shortcut: '/favicon.ico' },
+  openGraph: {
+    title: 'AIKit — Studio Dispatch',
+    description: 'A hand-bound dispatch of generative tools — conversation, stills, moving image.',
+    images: [{ url: '/og.png', width: 1200, height: 630 }],
+  },
+  twitter: { card: 'summary_large_image' },
+};
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
   const c = await cookies();
