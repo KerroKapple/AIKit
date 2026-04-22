@@ -70,7 +70,7 @@ export function ChatPane() {
             The <span className="text-vermilion">Wire</span> Room
           </h2>
         </div>
-        <div className="hidden md:flex items-center gap-3">
+        <div className="flex items-center gap-2 md:gap-3">
           <span className="chip"><span className="pulse-dot mr-1.5" /> QWEN · STREAM</span>
           {messages.length > 0 && (
             <button onClick={clear} className="ghost-btn">Clear</button>

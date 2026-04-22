@@ -78,7 +78,7 @@ export function ImageForm() {
             The <span className="text-vermilion">Plate</span> Press
           </h2>
         </div>
-        <span className="chip chip-ink hidden md:inline-flex">WAN · v2.2</span>
+        <span className="chip chip-ink">WAN · v2.2</span>
       </header>
 
       <div className="grid gap-8 lg:grid-cols-[minmax(0,380px),1fr]">

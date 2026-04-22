@@ -53,10 +53,10 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
             <div className="container py-6">
               <div className="flex items-start justify-between gap-6">
                 <div className="flex items-baseline gap-4">
-                  <div className="eyebrow hidden sm:block">{mh.est}</div>
+                  <div className="eyebrow">{mh.est}</div>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="eyebrow hidden md:inline">{today}</span>
+                  <span className="eyebrow text-[0.58rem] sm:text-[0.68rem]">{today}</span>
                   <LangSwitcher />
                 </div>
               </div>
@@ -65,7 +65,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
                 <h1 className="display text-[clamp(3.5rem,10vw,7.5rem)] leading-[0.82] font-black tracking-tight">
                   AI<span className="display-wonk text-vermilion italic">·</span>Kit
                 </h1>
-                <p className="max-w-sm text-sm text-ink-soft leading-relaxed italic display hidden md:block">
+                <p className="max-w-sm text-xs md:text-sm text-ink-soft leading-relaxed italic display block mt-3 md:mt-0">
                   {mh.subtitle}
                 </p>
               </div>
@@ -78,11 +78,11 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
 
           {/* 主体双栏：侧边 column-folio + 内容 */}
           <main className="container py-10">
-            <div className="grid grid-cols-[auto,1fr] gap-6 md:gap-10">
-              <aside className="hidden md:flex flex-col items-center pt-2 gap-6">
-                <div className="vertical-label">{mh.dispatchRoom}</div>
-                <div className="w-px flex-1 bg-rule" />
-                <div className="mono text-[0.62rem] tracking-widest text-ink-soft">§ 01</div>
+            <div className="grid grid-cols-1 md:grid-cols-[auto,1fr] gap-4 md:gap-10">
+              <aside className="flex md:flex-col md:items-center items-baseline gap-3 md:gap-6 md:pt-2 mono text-[0.62rem] tracking-widest text-ink-soft border-b md:border-b-0 pb-2 md:pb-0">
+                <span className="md:vertical-label uppercase">{mh.dispatchRoom}</span>
+                <span className="hidden md:block w-px flex-1 bg-rule" />
+                <span className="ml-auto md:ml-0">§ 01</span>
               </aside>
               <div className="min-w-0 fade-up">{children}</div>
             </div>

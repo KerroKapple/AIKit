@@ -105,7 +105,7 @@ export function VideoForm() {
             The <span className="text-vermilion">Cinema</span> Wing
           </h2>
         </div>
-        <span className="chip chip-ink hidden md:inline-flex">KLING · WAN</span>
+        <span className="chip chip-ink">KLING · WAN</span>
       </header>
 
       <div className="grid gap-8 lg:grid-cols-[minmax(0,420px),1fr]">
