@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useDict } from '@/app/_components/DictProvider';
 import { ImageGallery } from './ImageGallery';
 import { cn } from '@/lib/utils';
+import { useSessionState } from '@/lib/hooks/useSessionState';
 
 const RATIOS = ['1:1', '16:9', '9:16', '4:3', '3:4'] as const;
 const BATCHES = [1, 2, 3, 4] as const;
@@ -20,7 +21,10 @@ export function ImageForm() {
   const [prompt, setPrompt] = useState('');
   const [ratio, setRatio] = useState<(typeof RATIOS)[number]>('1:1');
   const [batch, setBatch] = useState<(typeof BATCHES)[number]>(1);
-  const [state, setState] = useState<State>({ kind: 'idle' });
+  const [state, setState] = useSessionState<State>('aikit:image:state', { kind: 'idle' }, {
+    // 离开页面时 poll loop 已死，回来只保留 done/error，其它归零
+    hydrate: (s) => (s.kind === 'done' || s.kind === 'error' ? s : { kind: 'idle' }),
+  });
 
   const pollLoop = async (taskId: string) => {
     while (true) {

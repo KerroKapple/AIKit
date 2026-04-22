@@ -3,10 +3,11 @@ import { useState } from 'react';
 import { MessageList, type ChatMsg } from './MessageList';
 import { ChatInput } from './ChatInput';
 import { useDict } from '@/app/_components/DictProvider';
+import { useSessionState } from '@/lib/hooks/useSessionState';
 
 export function ChatPane() {
   const { dict } = useDict();
-  const [messages, setMessages] = useState<ChatMsg[]>([]);
+  const [messages, setMessages] = useSessionState<ChatMsg[]>('aikit:chat:messages', []);
   const [pending, setPending] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 

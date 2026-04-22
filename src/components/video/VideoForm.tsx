@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useDict } from '@/app/_components/DictProvider';
 import { VideoCard } from './VideoCard';
 import { cn } from '@/lib/utils';
+import { useSessionState } from '@/lib/hooks/useSessionState';
 
 const DURATIONS = [5, 10] as const;
 const RESOLUTIONS = ['720p', '1080p'] as const;
@@ -33,7 +34,10 @@ export function VideoForm() {
   const [ratio, setRatio] = useState<(typeof RATIOS)[number]>('16:9');
   const [firstFrame, setFirstFrame] = useState<string | null>(null);
   const [refImages, setRefImages] = useState<string[]>([]);
-  const [state, setState] = useState<State>({ kind: 'idle' });
+  const [state, setState] = useSessionState<State>('aikit:video:state', { kind: 'idle' }, {
+    // poll loop 跨页面不续命，回来只保留终态
+    hydrate: (s) => (s.kind === 'done' || s.kind === 'error' ? s : { kind: 'idle' }),
+  });
 
   const onFirstFrame = async (f: File | null) => { setFirstFrame(f ? await fileToDataUrl(f) : null); };
   const onRefImages = async (fs: FileList | null) => {
