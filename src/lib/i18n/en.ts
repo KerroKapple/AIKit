@@ -28,5 +28,28 @@ const en: Dict = {
     NETWORK_ERROR: 'Network error. Please retry.',
     UNKNOWN: 'Unexpected error. Please retry.',
   },
+  masthead: {
+    marquee: [
+      '◆ AIKIT STUDIO DISPATCH',
+      'VOL. I · ISSUE 01',
+      'DASHSCOPE WIRE',
+      '● LIVE',
+      'FRIENDS · ONLY',
+      '◆ QWEN / WAN / KLING',
+      'NO PAYWALL · NO TRACK',
+      '◆ HAND-BOUND IN SHANGHAI',
+    ],
+    est: 'EST. 2026 · № 01',
+    subtitle:
+      'A hand-bound dispatch of generative tools — conversation, stills, moving image — served without ceremony, for friends.',
+    dispatchRoom: 'DISPATCH ROOM',
+    colophon: 'Colophon',
+    colophonBody:
+      'Set in Fraunces, Instrument Sans & JetBrains Mono. Printed on warm paper, pressed in Next.js.',
+    imprint: 'Imprint',
+    imprintBody:
+      'Powered by DashScope — Qwen for words, Wan for stills, Kling for motion.',
+    fin: 'FIN',
+  },
 };
 export default en;

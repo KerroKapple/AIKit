@@ -22,6 +22,17 @@ export type Dict = {
     expiresAt: string; saveNow: string;
     seconds: string; minutes: string; hours: string;
   };
+  masthead: {
+    marquee: readonly string[];
+    est: string;
+    subtitle: string;
+    dispatchRoom: string;
+    colophon: string;
+    colophonBody: string;
+    imprint: string;
+    imprintBody: string;
+    fin: string;
+  };
   errors: {
     INVALID_KEY: string;
     CONTENT_POLICY: string;

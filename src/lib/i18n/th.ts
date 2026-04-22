@@ -28,5 +28,27 @@ const th: Dict = {
     NETWORK_ERROR: 'ข้อผิดพลาดเครือข่าย โปรดลองใหม่',
     UNKNOWN: 'ข้อผิดพลาดที่ไม่ทราบสาเหตุ โปรดลองใหม่',
   },
+  masthead: {
+    marquee: [
+      '◆ AIKIT STUDIO DISPATCH',
+      'เล่ม I · ฉบับ 01',
+      'สาย DASHSCOPE',
+      '● ถ่ายทอดสด',
+      'เพื่อนเท่านั้น',
+      '◆ QWEN / WAN / KLING',
+      'ไม่มีค่าธรรมเนียม · ไม่ติดตาม',
+      '◆ เย็บมือที่เซี่ยงไฮ้',
+    ],
+    est: 'ก่อตั้ง 2026 · № 01',
+    subtitle:
+      'วารสารเย็บมือรวมเครื่องมือสร้างสรรค์ — บทสนทนา ภาพนิ่ง ภาพเคลื่อนไหว — เสิร์ฟให้เพื่อนโดยไม่มีพิธีรีตอง',
+    dispatchRoom: 'ห้องส่ง',
+    colophon: 'ข้อมูลสิ่งพิมพ์',
+    colophonBody:
+      'จัดหน้าด้วย Fraunces, Instrument Sans และ JetBrains Mono · พิมพ์บนกระดาษอุ่น ด้วยแท่น Next.js',
+    imprint: 'ผู้จัดพิมพ์',
+    imprintBody: 'ขับเคลื่อนโดย DashScope — Qwen สำหรับถ้อยคำ, Wan สำหรับภาพนิ่ง, Kling สำหรับภาพเคลื่อนไหว',
+    fin: 'จบ',
+  },
 };
 export default th;

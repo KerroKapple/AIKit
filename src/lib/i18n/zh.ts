@@ -28,5 +28,27 @@ const zh: Dict = {
     NETWORK_ERROR: '网络错误，请重试。',
     UNKNOWN: '未知错误，请重试。',
   },
+  masthead: {
+    marquee: [
+      '◆ AIKIT 工作室通讯',
+      '第壹卷 · 壹号',
+      'DASHSCOPE 线路',
+      '● 现场',
+      '仅限 · 友人',
+      '◆ QWEN / WAN / KLING',
+      '无付费 · 不追踪',
+      '◆ 上海 · 手工装订',
+    ],
+    est: '创刊于 2026 · № 01',
+    subtitle:
+      '一份生成式工具的手订小报——对话、静像、动像——无仪式感地奉与友人。',
+    dispatchRoom: '发稿间',
+    colophon: '版权页',
+    colophonBody:
+      '以 Fraunces、Instrument Sans 与 JetBrains Mono 排版；印于暖纸，压于 Next.js。',
+    imprint: '承印',
+    imprintBody: '由 DashScope 驱动 —— 文用 Qwen，静像用 Wan，动像用 Kling。',
+    fin: '完',
+  },
 };
 export default zh;

@@ -15,7 +15,9 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   const c = await cookies();
   const locale = normalizeLocale(c.get('locale')?.value);
   const dict = getDict(locale);
-  const today = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase();
+  const dateLocale = locale === 'zh' ? 'zh-CN' : locale === 'th' ? 'th-TH' : 'en-GB';
+  const today = new Date().toLocaleDateString(dateLocale, { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase();
+  const mh = dict.masthead;
 
   return (
     <html lang={locale}>
@@ -26,16 +28,10 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
             <div className="marquee-track">
               {Array.from({ length: 2 }).map((_, k) => (
                 <div key={k} className="flex items-center gap-8 px-4 font-mono text-[0.68rem] uppercase tracking-[0.3em]">
-                  <span>◆ AIKIT STUDIO DISPATCH</span>
-                  <span>VOL. I · ISSUE 01</span>
-                  <span>DASHSCOPE WIRE</span>
-                  <span className="text-vermilion">● LIVE</span>
-                  <span>FRIENDS · ONLY</span>
-                  <span>◆ QWEN / WAN / KLING</span>
+                  {mh.marquee.map((item, i) => (
+                    <span key={i} className={item.includes('●') ? 'text-vermilion' : undefined}>{item}</span>
+                  ))}
                   <span>{today}</span>
-                  <span>NO PAYWALL · NO TRACK</span>
-                  <span>◆ HAND-BOUND IN SHANGHAI</span>
-                  <span>VOL. I · ISSUE 01</span>
                 </div>
               ))}
             </div>
@@ -46,7 +42,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
             <div className="container py-6">
               <div className="flex items-start justify-between gap-6">
                 <div className="flex items-baseline gap-4">
-                  <div className="eyebrow hidden sm:block">EST. 2026 · № 01</div>
+                  <div className="eyebrow hidden sm:block">{mh.est}</div>
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="eyebrow hidden md:inline">{today}</span>
@@ -59,7 +55,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
                   AI<span className="display-wonk text-vermilion italic">·</span>Kit
                 </h1>
                 <p className="max-w-sm text-sm text-ink-soft leading-relaxed italic display hidden md:block">
-                  A hand-bound dispatch of generative tools — conversation, stills, moving image — served without ceremony, for friends.
+                  {mh.subtitle}
                 </p>
               </div>
 
@@ -73,7 +69,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
           <main className="container py-10">
             <div className="grid grid-cols-[auto,1fr] gap-6 md:gap-10">
               <aside className="hidden md:flex flex-col items-center pt-2 gap-6">
-                <div className="vertical-label">DISPATCH ROOM</div>
+                <div className="vertical-label">{mh.dispatchRoom}</div>
                 <div className="w-px flex-1 bg-rule" />
                 <div className="mono text-[0.62rem] tracking-widest text-ink-soft">§ 01</div>
               </aside>
@@ -85,20 +81,15 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
           <footer className="border-t border-ink mt-16">
             <div className="container py-8 grid gap-6 md:grid-cols-3 text-sm">
               <div>
-                <div className="eyebrow mb-2">Colophon</div>
-                <p className="text-ink-soft leading-relaxed">
-                  Set in <span className="display italic">Fraunces</span>, Instrument Sans &amp; JetBrains Mono.
-                  Printed on warm paper, pressed in Next.js.
-                </p>
+                <div className="eyebrow mb-2">{mh.colophon}</div>
+                <p className="text-ink-soft leading-relaxed">{mh.colophonBody}</p>
               </div>
               <div>
-                <div className="eyebrow mb-2">Imprint</div>
-                <p className="text-ink-soft leading-relaxed">
-                  Powered by DashScope — Qwen for words, Wan for stills, Kling for motion.
-                </p>
+                <div className="eyebrow mb-2">{mh.imprint}</div>
+                <p className="text-ink-soft leading-relaxed">{mh.imprintBody}</p>
               </div>
               <div className="text-right">
-                <div className="eyebrow mb-2">FIN</div>
+                <div className="eyebrow mb-2">{mh.fin}</div>
                 <p className="display italic text-2xl">—&nbsp;30&nbsp;—</p>
               </div>
             </div>
