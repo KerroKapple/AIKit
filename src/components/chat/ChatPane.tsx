@@ -79,7 +79,7 @@ export function ChatPane() {
       </header>
 
       <div className="grid grid-cols-1 lg:grid-cols-[1fr,260px] gap-6">
-        <div className="paper-card flex flex-col min-h-[60vh] max-h-[72vh]">
+        <div className="paper-card flex flex-col min-h-[60dvh] max-h-[72dvh]">
           <MessageList messages={messages} pendingAssistant={pending} />
           {error && (
             <div className="px-4 py-2 text-sm border-t border-vermilion/40 bg-vermilion/5 text-vermilion-ink mono">
