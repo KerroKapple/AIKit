@@ -53,11 +53,65 @@ export function ChatPane() {
     }
   };
 
+  const clear = () => { setMessages([]); setError(null); };
+
   return (
-    <div className="flex flex-col h-[calc(100vh-12rem)] border rounded-lg">
-      <MessageList messages={messages} pendingAssistant={pending} />
-      {error && <div className="px-3 py-2 text-sm text-destructive border-t">{error}</div>}
-      <ChatInput onSend={send} disabled={pending !== null} />
-    </div>
+    <section className="grid gap-5">
+      {/* Section head */}
+      <header className="flex items-end justify-between gap-6 border-b border-ink pb-3">
+        <div>
+          <div className="eyebrow flex items-center gap-3">
+            <span>Dispatch № 01</span>
+            <span className="w-6 h-px bg-ink-soft" />
+            <span>Conversation</span>
+          </div>
+          <h2 className="display text-4xl md:text-5xl font-semibold italic leading-tight mt-1">
+            The <span className="text-vermilion">Wire</span> Room
+          </h2>
+        </div>
+        <div className="hidden md:flex items-center gap-3">
+          <span className="chip"><span className="pulse-dot mr-1.5" /> QWEN · STREAM</span>
+          {messages.length > 0 && (
+            <button onClick={clear} className="ghost-btn">Clear</button>
+          )}
+        </div>
+      </header>
+
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr,260px] gap-6">
+        <div className="paper-card flex flex-col min-h-[60vh] max-h-[72vh]">
+          <MessageList messages={messages} pendingAssistant={pending} />
+          {error && (
+            <div className="px-4 py-2 text-sm border-t border-vermilion/40 bg-vermilion/5 text-vermilion-ink mono">
+              ⚠ {error}
+            </div>
+          )}
+          <ChatInput onSend={send} disabled={pending !== null} />
+        </div>
+
+        {/* 侧边注脚 */}
+        <aside className="hidden lg:flex flex-col gap-4 pt-2">
+          <div>
+            <div className="eyebrow mb-2">Marginalia</div>
+            <p className="text-sm text-ink-soft leading-relaxed display italic">
+              Type a question. Press <span className="mono not-italic text-ink">↵</span> to send,
+              <span className="mono not-italic text-ink"> ⇧↵</span> for a new line.
+              The line below you is a live transcript — it appears as the model types.
+            </p>
+          </div>
+          <div className="border-t border-rule pt-4">
+            <div className="eyebrow mb-2">Transcript</div>
+            <dl className="grid grid-cols-2 gap-y-1 text-xs mono">
+              <dt className="text-ink-soft">Turns</dt><dd className="text-right">{messages.length}</dd>
+              <dt className="text-ink-soft">Status</dt>
+              <dd className="text-right">{pending !== null ? 'transmitting' : 'idle'}</dd>
+            </dl>
+          </div>
+          <div className="mt-auto border-t border-rule pt-4 text-xs mono text-ink-soft">
+            § 01 · TXT<br/>
+            No logs. No trace. Friends only.
+          </div>
+        </aside>
+      </div>
+    </section>
   );
 }

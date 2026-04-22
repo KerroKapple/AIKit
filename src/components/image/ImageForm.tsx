@@ -1,13 +1,8 @@
 'use client';
 import { useState } from 'react';
-import { Textarea } from '@/components/ui/textarea';
-import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-import {
-  Select, SelectTrigger, SelectValue, SelectContent, SelectItem,
-} from '@/components/ui/select';
 import { useDict } from '@/app/_components/DictProvider';
 import { ImageGallery } from './ImageGallery';
+import { cn } from '@/lib/utils';
 
 const RATIOS = ['1:1', '16:9', '9:16', '4:3', '3:4'] as const;
 const BATCHES = [1, 2, 3, 4] as const;
@@ -67,37 +62,123 @@ export function ImageForm() {
   const busy = state.kind === 'submitting' || state.kind === 'polling';
 
   return (
-    <div className="grid gap-6 md:grid-cols-2">
-      <div className="space-y-4">
+    <section className="grid gap-5">
+      <header className="flex items-end justify-between gap-6 border-b border-ink pb-3">
         <div>
-          <Label>{dict.image.prompt}</Label>
-          <Textarea value={prompt} onChange={(e) => setPrompt(e.target.value)}
-            placeholder={dict.image.promptPlaceholder} className="min-h-[120px]" disabled={busy}/>
-        </div>
-        <div className="grid grid-cols-2 gap-3">
-          <div>
-            <Label>{dict.image.ratio}</Label>
-            <Select value={ratio} onValueChange={(v) => setRatio(v as typeof ratio)} disabled={busy}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
-              <SelectContent>{RATIOS.map((r) => <SelectItem key={r} value={r}>{r}</SelectItem>)}</SelectContent>
-            </Select>
+          <div className="eyebrow flex items-center gap-3">
+            <span>Dispatch № 02</span>
+            <span className="w-6 h-px bg-ink-soft" />
+            <span>Still Image</span>
           </div>
-          <div>
-            <Label>{dict.image.batch}</Label>
-            <Select value={String(batch)} onValueChange={(v) => setBatch(Number(v) as typeof batch)} disabled={busy}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
-              <SelectContent>{BATCHES.map((b) => <SelectItem key={b} value={String(b)}>{b}</SelectItem>)}</SelectContent>
-            </Select>
+          <h2 className="display text-4xl md:text-5xl font-semibold italic leading-tight mt-1">
+            The <span className="text-vermilion">Plate</span> Press
+          </h2>
+        </div>
+        <span className="chip chip-ink hidden md:inline-flex">WAN · v2.2</span>
+      </header>
+
+      <div className="grid gap-8 lg:grid-cols-[minmax(0,380px),1fr]">
+        {/* 左 · 工单 */}
+        <div className="paper-card p-5 space-y-6 relative">
+          <span className="absolute -top-3 left-4 bg-paper px-2 mono text-[0.62rem] tracking-[0.22em] text-ink-soft">
+            ORDER FORM · 02A
+          </span>
+
+          <Field label={dict.image.prompt} n="01">
+            <textarea
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              placeholder={dict.image.promptPlaceholder}
+              disabled={busy}
+              rows={5}
+              className="w-full bg-transparent resize-none outline-none font-sans text-base leading-relaxed placeholder:italic placeholder:text-ink-soft/50 border-b border-rule focus:border-ink pb-2 transition-colors"
+            />
+          </Field>
+
+          <div className="grid grid-cols-2 gap-5">
+            <Field label={dict.image.ratio} n="02">
+              <ChipGroup value={ratio} options={RATIOS} onChange={(v) => setRatio(v)} disabled={busy} />
+            </Field>
+            <Field label={dict.image.batch} n="03">
+              <ChipGroup
+                value={String(batch)}
+                options={BATCHES.map((b) => String(b)) as unknown as readonly string[]}
+                onChange={(v) => setBatch(Number(v) as typeof batch)}
+                disabled={busy}
+              />
+            </Field>
+          </div>
+
+          <button onClick={submit} disabled={busy || !prompt.trim()} className="ink-btn w-full justify-center">
+            {busy ? dict.image.generating : dict.image.generate}
+            <span aria-hidden>{busy ? '' : '◆'}</span>
+          </button>
+
+          {state.kind === 'error' && (
+            <div className="text-sm mono text-vermilion-ink border border-vermilion/40 bg-vermilion/5 px-3 py-2">
+              ⚠ {state.message}
+            </div>
+          )}
+          {state.kind === 'polling' && (
+            <div className="flex items-center gap-2 text-xs mono text-ink-soft">
+              <span className="pulse-dot" /> exposing plate · task {state.taskId.slice(0, 8)}…
+            </div>
+          )}
+        </div>
+
+        {/* 右 · 版面 */}
+        <div className="relative">
+          <div className="eyebrow mb-3 flex items-center justify-between">
+            <span>Plate · Gallery</span>
+            <span>{state.kind === 'done' ? `${state.urls.length} EXPOSED` : '—— ——'}</span>
+          </div>
+          <div className={cn(
+            'min-h-[360px] border border-ink p-4 bg-paper-deep/40',
+            state.kind !== 'done' && 'hatch',
+          )}>
+            <ImageGallery urls={state.kind === 'done' ? state.urls : []} busy={busy} />
           </div>
         </div>
-        <Button onClick={submit} disabled={busy || !prompt.trim()} className="w-full">
-          {busy ? dict.image.generating : dict.image.generate}
-        </Button>
-        {state.kind === 'error' && <div className="text-sm text-destructive">{state.message}</div>}
       </div>
-      <div className="border rounded-lg p-4 min-h-[300px]">
-        <ImageGallery urls={state.kind === 'done' ? state.urls : []} />
+    </section>
+  );
+}
+
+function Field({ label, n, children }: { label: string; n: string; children: React.ReactNode }) {
+  return (
+    <div>
+      <div className="flex items-baseline gap-2 mb-1">
+        <span className="mono text-[0.62rem] tracking-[0.22em] text-vermilion">№{n}</span>
+        <span className="eyebrow">{label}</span>
       </div>
+      {children}
+    </div>
+  );
+}
+
+function ChipGroup<T extends string>({ value, options, onChange, disabled }: {
+  value: T; options: readonly T[]; onChange: (v: T) => void; disabled?: boolean;
+}) {
+  return (
+    <div className="flex flex-wrap gap-1.5">
+      {options.map((o) => {
+        const active = o === value;
+        return (
+          <button
+            key={o}
+            type="button"
+            disabled={disabled}
+            onClick={() => onChange(o)}
+            className={cn(
+              'mono text-[0.72rem] tracking-[0.12em] px-2.5 py-1.5 border transition-colors',
+              active ? 'bg-ink text-paper border-ink' : 'border-rule hover:border-ink',
+              disabled && 'opacity-40 cursor-not-allowed',
+            )}
+          >
+            {o}
+          </button>
+        );
+      })}
     </div>
   );
 }

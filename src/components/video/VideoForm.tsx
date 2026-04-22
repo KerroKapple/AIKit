@@ -1,13 +1,8 @@
 'use client';
 import { useState } from 'react';
-import { Textarea } from '@/components/ui/textarea';
-import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-import {
-  Select, SelectTrigger, SelectValue, SelectContent, SelectItem,
-} from '@/components/ui/select';
 import { useDict } from '@/app/_components/DictProvider';
 import { VideoCard } from './VideoCard';
+import { cn } from '@/lib/utils';
 
 const DURATIONS = [5, 10] as const;
 const RESOLUTIONS = ['720p', '1080p'] as const;
@@ -94,55 +89,138 @@ export function VideoForm() {
     { status: 'idle' as const };
 
   return (
-    <div className="grid gap-6 md:grid-cols-2">
-      <div className="space-y-4">
+    <section className="grid gap-5">
+      <header className="flex items-end justify-between gap-6 border-b border-ink pb-3">
         <div>
-          <Label>{dict.video.prompt}</Label>
-          <Textarea value={prompt} onChange={(e) => setPrompt(e.target.value)}
-            placeholder={dict.video.promptPlaceholder} className="min-h-[120px]" disabled={busy}/>
+          <div className="eyebrow flex items-center gap-3">
+            <span>Dispatch № 03</span>
+            <span className="w-6 h-px bg-ink-soft" />
+            <span>Moving Image</span>
+          </div>
+          <h2 className="display text-4xl md:text-5xl font-semibold italic leading-tight mt-1">
+            The <span className="text-vermilion">Cinema</span> Wing
+          </h2>
         </div>
-        <div className="grid grid-cols-3 gap-3">
-          <div>
-            <Label>{dict.video.duration}</Label>
-            <Select value={String(duration)} onValueChange={(v) => setDuration(Number(v) as typeof duration)} disabled={busy}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
-              <SelectContent>{DURATIONS.map((d) => <SelectItem key={d} value={String(d)}>{d}s</SelectItem>)}</SelectContent>
-            </Select>
+        <span className="chip chip-ink hidden md:inline-flex">KLING · WAN</span>
+      </header>
+
+      <div className="grid gap-8 lg:grid-cols-[minmax(0,420px),1fr]">
+        <div className="paper-card p-5 space-y-6 relative">
+          <span className="absolute -top-3 left-4 bg-paper px-2 mono text-[0.62rem] tracking-[0.22em] text-ink-soft">
+            STORYBOARD · 03A
+          </span>
+
+          <Field label={dict.video.prompt} n="01">
+            <textarea
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              placeholder={dict.video.promptPlaceholder}
+              disabled={busy}
+              rows={5}
+              className="w-full bg-transparent resize-none outline-none font-sans text-base leading-relaxed placeholder:italic placeholder:text-ink-soft/50 border-b border-rule focus:border-ink pb-2 transition-colors"
+            />
+          </Field>
+
+          <div className="grid grid-cols-3 gap-3">
+            <Field label={dict.video.duration} n="02">
+              <ChipGroup value={String(duration)} options={DURATIONS.map(String)} onChange={(v) => setDuration(Number(v) as typeof duration)} disabled={busy} suffix="s" />
+            </Field>
+            <Field label={dict.video.resolution} n="03">
+              <ChipGroup value={resolution} options={RESOLUTIONS as unknown as string[]} onChange={(v) => setResolution(v as typeof resolution)} disabled={busy} />
+            </Field>
+            <Field label={dict.video.aspectRatio} n="04">
+              <ChipGroup value={ratio} options={RATIOS as unknown as string[]} onChange={(v) => setRatio(v as typeof ratio)} disabled={busy} />
+            </Field>
           </div>
-          <div>
-            <Label>{dict.video.resolution}</Label>
-            <Select value={resolution} onValueChange={(v) => setResolution(v as typeof resolution)} disabled={busy}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
-              <SelectContent>{RESOLUTIONS.map((r) => <SelectItem key={r} value={r}>{r}</SelectItem>)}</SelectContent>
-            </Select>
-          </div>
-          <div>
-            <Label>{dict.video.aspectRatio}</Label>
-            <Select value={ratio} onValueChange={(v) => setRatio(v as typeof ratio)} disabled={busy}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
-              <SelectContent>{RATIOS.map((r) => <SelectItem key={r} value={r}>{r}</SelectItem>)}</SelectContent>
-            </Select>
-          </div>
+
+          <Field label={dict.video.firstFrame} n="05">
+            <FileRow accept="image/*" disabled={busy}
+              hasValue={!!firstFrame}
+              onChange={(e) => onFirstFrame(e.target.files?.[0] ?? null)} />
+          </Field>
+
+          <Field label={dict.video.refImages} n="06">
+            <FileRow accept="image/*" multiple disabled={busy}
+              hasValue={refImages.length > 0}
+              count={refImages.length}
+              onChange={(e) => onRefImages(e.target.files)} />
+            <p className="text-xs text-ink-soft italic display mt-1.5">{dict.video.refImagesHint}</p>
+          </Field>
+
+          <button onClick={submit} disabled={busy || !prompt.trim()} className="ink-btn w-full justify-center">
+            {busy ? dict.video.generating : dict.video.generate}
+            <span aria-hidden>{busy ? '' : '▶'}</span>
+          </button>
         </div>
+
         <div>
-          <Label>{dict.video.firstFrame}</Label>
-          <input type="file" accept="image/*" disabled={busy}
-            onChange={(e) => onFirstFrame(e.target.files?.[0] ?? null)}
-            className="block text-sm" />
+          <div className="eyebrow mb-3 flex items-center justify-between">
+            <span>Screening Room</span>
+            <span>{card.status.toUpperCase()}</span>
+          </div>
+          <div className={cn(
+            'border border-ink bg-ink text-paper min-h-[360px] p-4 relative overflow-hidden',
+            card.status === 'idle' && 'bg-paper text-ink hatch',
+          )}>
+            <VideoCard {...card} />
+          </div>
         </div>
-        <div>
-          <Label>{dict.video.refImages}</Label>
-          <input type="file" accept="image/*" multiple disabled={busy}
-            onChange={(e) => onRefImages(e.target.files)} className="block text-sm" />
-          <p className="text-xs text-muted-foreground mt-1">{dict.video.refImagesHint}</p>
-        </div>
-        <Button onClick={submit} disabled={busy || !prompt.trim()} className="w-full">
-          {busy ? dict.video.generating : dict.video.generate}
-        </Button>
       </div>
-      <div className="border rounded-lg p-4 min-h-[300px]">
-        <VideoCard {...card} />
+    </section>
+  );
+}
+
+function Field({ label, n, children }: { label: string; n: string; children: React.ReactNode }) {
+  return (
+    <div>
+      <div className="flex items-baseline gap-2 mb-1">
+        <span className="mono text-[0.62rem] tracking-[0.22em] text-vermilion">№{n}</span>
+        <span className="eyebrow">{label}</span>
       </div>
+      {children}
     </div>
+  );
+}
+
+function ChipGroup({ value, options, onChange, disabled, suffix }: {
+  value: string; options: readonly string[]; onChange: (v: string) => void; disabled?: boolean; suffix?: string;
+}) {
+  return (
+    <div className="flex flex-wrap gap-1.5">
+      {options.map((o) => {
+        const active = o === value;
+        return (
+          <button
+            key={o} type="button" disabled={disabled} onClick={() => onChange(o)}
+            className={cn(
+              'mono text-[0.72rem] tracking-[0.1em] px-2.5 py-1.5 border transition-colors',
+              active ? 'bg-ink text-paper border-ink' : 'border-rule hover:border-ink',
+              disabled && 'opacity-40 cursor-not-allowed',
+            )}
+          >
+            {o}{suffix ?? ''}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+function FileRow({ accept, multiple, disabled, hasValue, count, onChange }: {
+  accept: string; multiple?: boolean; disabled?: boolean; hasValue: boolean; count?: number;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}) {
+  return (
+    <label className={cn(
+      'flex items-center gap-3 border border-dashed border-rule px-3 py-2 cursor-pointer hover:border-ink transition-colors',
+      disabled && 'opacity-40 cursor-not-allowed',
+      hasValue && 'border-ink border-solid bg-paper-deep',
+    )}>
+      <span className="mono text-[0.68rem] tracking-[0.2em] text-ink-soft">
+        {hasValue ? (count ? `✓ ${count} FILE${count > 1 ? 'S' : ''}` : '✓ LOADED') : '+ ATTACH'}
+      </span>
+      <input type="file" accept={accept} multiple={multiple} disabled={disabled} onChange={onChange} className="sr-only" />
+      <span className="ml-auto mono text-[0.62rem] text-ink-soft">BROWSE</span>
+    </label>
   );
 }

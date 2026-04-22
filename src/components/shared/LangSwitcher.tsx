@@ -1,38 +1,35 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import {
-  DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem,
-} from '@/components/ui/dropdown-menu';
-import { Button } from '@/components/ui/button';
-import { Globe } from 'lucide-react';
+import { cn } from '@/lib/utils';
 import { useDict } from '@/app/_components/DictProvider';
 import type { Locale } from '@/lib/i18n/types';
 
-const LABELS: Record<Locale, string> = { en: 'English', zh: '中文', th: 'ไทย' };
-const FLAGS: Record<Locale, string> = { en: 'EN', zh: 'ZH', th: 'TH' };
+const CODES: Locale[] = ['en', 'zh', 'th'];
+const GLYPH: Record<Locale, string> = { en: 'EN', zh: '中', th: 'ไท' };
 
 export function LangSwitcher() {
   const router = useRouter();
   const { locale } = useDict();
   const set = (l: Locale) => {
+    if (l === locale) return;
     document.cookie = `locale=${l}; path=/; max-age=${60 * 60 * 24 * 365}`;
     router.refresh();
   };
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="sm" className="gap-1">
-          <Globe className="h-4 w-4" />
-          <span>{FLAGS[locale]}</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        {(Object.keys(LABELS) as Locale[]).map((l) => (
-          <DropdownMenuItem key={l} onClick={() => set(l)}>
-            {LABELS[l]}
-          </DropdownMenuItem>
-        ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <div className="inline-flex border border-ink">
+      {CODES.map((l) => (
+        <button
+          key={l}
+          onClick={() => set(l)}
+          className={cn(
+            'mono text-[0.72rem] tracking-[0.18em] px-2.5 py-1.5 transition-colors border-l border-ink first:border-l-0',
+            locale === l ? 'bg-ink text-paper' : 'bg-paper text-ink hover:bg-paper-deep',
+          )}
+          aria-pressed={locale === l}
+        >
+          {GLYPH[l]}
+        </button>
+      ))}
+    </div>
   );
 }

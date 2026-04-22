@@ -21,8 +21,10 @@ export function ExpiryBanner({ tasks }: { tasks: TaskMeta[] }) {
   const hrs = Math.floor(mins / 60);
   const label = hrs > 0 ? `${hrs}${dict.common.hours} ${mins % 60}${dict.common.minutes}` : `${mins}${dict.common.minutes}`;
   return (
-    <div className="px-4 py-2 text-sm text-muted-foreground border-b bg-muted/30">
-      ⏰ {dict.common.expiresAt}: {label} — {dict.common.saveNow}
+    <div className="flex items-center gap-3 border border-vermilion/40 bg-vermilion/5 px-3 py-2 mono text-[0.72rem] tracking-wider uppercase text-vermilion-ink">
+      <span className="chip chip-vermilion">⏱ {dict.common.expiresAt}</span>
+      <span>{label}</span>
+      <span className="ml-auto italic display normal-case tracking-normal text-ink-soft">— {dict.common.saveNow}</span>
     </div>
   );
 }
