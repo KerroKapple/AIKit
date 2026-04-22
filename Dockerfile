@@ -9,6 +9,7 @@ WORKDIR /app
 RUN apk add --no-cache python3 make g++
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+ENV DASHSCOPE_API_KEY=build-time-placeholder
 RUN npm run build
 
 FROM node:20-alpine AS runner
@@ -24,7 +25,6 @@ RUN apk add --no-cache tini \
 
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/src/lib/db/schema.sql ./src/lib/db/schema.sql
 
 USER nextjs
