@@ -1,0 +1,63 @@
+name: 🐛 Bug 报告
+description: 发现了一个 Bug 或不符合预期的行为
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢反馈！为了让定位更快，请尽量把信息填全。
+
+  - type: textarea
+    id: description
+    attributes:
+      label: 现象描述
+      description: 发生了什么？预期是什么？
+      placeholder: |
+        例如：在 /image 页面点击「生成」按钮后，loading 状态不消失，控制台报 …
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: 复现步骤
+      placeholder: |
+        1. 打开 /image
+        2. 输入 prompt "a cat"
+        3. 点击 生成
+        4. 看到 …
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: 预期行为
+      placeholder: 应该返回一张图片并展示在结果区
+    validations:
+      required: true
+
+  - type: dropdown
+    id: env
+    attributes:
+      label: 运行环境
+      options:
+        - 本地 dev (npm run dev)
+        - Docker (docker compose up)
+        - 生产部署 (反代后)
+        - 其他
+    validations:
+      required: true
+
+  - type: input
+    id: browser
+    attributes:
+      label: 浏览器/版本
+      placeholder: Chrome 134 / Safari 17 / iOS Safari …
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: 相关日志或截图
+      description: 控制台报错、网络面板响应、容器日志……贴在这里。截图直接拖进来。
+      render: shell

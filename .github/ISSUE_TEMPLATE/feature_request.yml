@@ -1,0 +1,41 @@
+name: 💡 功能建议
+description: 想加一个新能力或改进现有功能
+labels: ["enhancement", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        AIKit 定位是"小而清晰"，并不打算变成大杂烩。在提建议前可以先想想：
+        这个能力是不是大多数用户都需要？还是某个特定场景才用？
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: 你想解决什么问题？
+      description: 先讲场景和痛点，不要直接讲方案
+      placeholder: |
+        例如：当前 chat 页面没有"导出对话"功能，每次想分享给朋友只能手动复制粘贴 …
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: 你心里的方案
+      placeholder: 例如在 chat 顶栏加 "导出 Markdown" 按钮，点击后下载 .md 文件
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 其他备选方案
+      description: 想过哪些其他做法？为什么没选？
+
+  - type: checkboxes
+    id: contribute
+    attributes:
+      label: 是否愿意自己提 PR 实现
+      options:
+        - label: 我可以尝试自己实现
+        - label: 需要更多讨论才能动手

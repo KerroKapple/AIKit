@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📖 README & 部署文档
+    url: https://github.com/KerroKapple/AIKit/blob/main/README.md
+    about: 本地开发 / Docker / 部署常见问题先看 README
+  - name: 💬 GitHub Discussions
+    url: https://github.com/KerroKapple/AIKit/discussions
+    about: 开放式讨论、求助、分享 use case 都来这里（不是 bug 也不是明确的 feature 提案）
